@@ -58,7 +58,7 @@ Add one or more of these or your own custom tools with `add` command:
 ### Claude Code
 
 - Name: `claude`
-- Command: `claude --dangerously-skip-permissions --no-chrome --model claude-sonnet-4-5 --output-format text --system-prompt You are a Joker! -p`
+- Command: `claude --dangerously-skip-permissions --no-chrome --model claude-sonnet-4-5 --output-format text -p`
 - Description: `Claude Code`
 
 ### OpenCode

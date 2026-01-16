@@ -1,5 +1,5 @@
 {
-  "name": "heyai",
+  "name": "hey-ai-cli",
   "version": "1.0.0",
   "description": "A CLI-based app for non-interactive inference from popular AI CLI tools such as Claude Code, Gemini CLI, Codex, OpenCode, etc.",
   "main": "dist/index.js",
@@ -28,7 +28,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/sarfraznawaz2005/heyai.git"
+    "url": "git+https://github.com/sarfraznawaz2005/heyai.git"
   },
   "bugs": {
     "url": "https://github.com/sarfraznawaz2005/heyai/issues"

@@ -35,7 +35,7 @@ A CLI-based app for non-interactive (direct) inference from popular AI CLI tools
 ## Installation
 
 ```bash
-npm install -g heyai
+npm install -g hey-ai-cli
 ```
 
 Or use locally:

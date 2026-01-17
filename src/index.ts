@@ -125,30 +125,32 @@ if (args.includes('--version') || args.includes('-V')) {
     process.exit(0);
 }
 
+if (args.includes('--help') || args.includes('-h')) {
+    program.outputHelp();
+    process.exit(0);
+}
+
 if (args.length > 0 && commands.includes(args[0])) {
     // Known command
     program.parse(process.argv);
 } else {
-    // Check for default command flags
-    const noAutocheckIndex = args.indexOf('--no-autocheck');
-    const autocheck = noAutocheckIndex === -1;
-    if (!autocheck) {
-        args.splice(noAutocheckIndex, 1);
+    // Default command
+    let autocheck = true;
+    let promptArgs = [...args];
+    const noAutocheckIndex = promptArgs.indexOf('--no-autocheck');
+    if (noAutocheckIndex !== -1) {
+        autocheck = false;
+        promptArgs.splice(noAutocheckIndex, 1);
     }
 
-    if (args.length === 1 && args[0].includes(' ')) {
-        // Single argument with spaces (likely quoted prompt)
-        defaultCommand(args[0], { autocheck }).catch(error => {
-            console.error(error);
-            process.exit(1);
-        });
-    } else if (args.length > 0) {
-        // Unknown command or unquoted single word
-        console.log(chalk.red(`Unknown command: ${args.join(' ')}`));
+    if (promptArgs.length === 0) {
         program.outputHelp();
-        process.exit(1);
-    } else {
-        // No args
-        program.parse(process.argv);
+        process.exit(0);
     }
+
+    const prompt = promptArgs.join(' ');
+    defaultCommand(prompt, { autocheck }).catch(error => {
+        console.error(error);
+        process.exit(1);
+    });
 }

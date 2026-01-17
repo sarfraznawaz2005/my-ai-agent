@@ -178,6 +178,12 @@ Use the best tool automatically:
 agent "tell me a joke"
 ```
 
+or without quotes:
+
+```bash
+agent tell me a joke
+```
+
 Skip automatic fallback if best tool fails:
 ```bash
 agent "tell me a joke" --no-autocheck

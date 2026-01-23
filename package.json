@@ -1,6 +1,6 @@
 {
   "name": "my-ai-agent",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A CLI-based app for non-interactive inference from popular AI CLI tools such as Claude Code, Gemini CLI, Codex, OpenCode, etc.",
   "main": "dist/index.js",
   "bin": {

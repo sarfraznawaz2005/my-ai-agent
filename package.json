@@ -1,6 +1,6 @@
 {
   "name": "my-ai-agent",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A CLI-based app for non-interactive inference from popular AI CLI tools such as Claude Code, Gemini CLI, Codex, OpenCode, etc.",
   "main": "dist/index.js",
   "bin": {
@@ -50,12 +50,14 @@
     "inquirer": "^8.2.6",
     "marked": "^15.0.12",
     "marked-terminal": "^7.3.0",
+    "node-notifier": "^10.0.1",
     "ora": "^5.4.1"
   },
   "devDependencies": {
     "@types/inquirer": "^8.2.10",
     "@types/jest": "^29.5.11",
     "@types/node": "^20.10.6",
+    "@types/node-notifier": "^8.0.5",
     "jest": "^29.7.0",
     "ts-jest": "^29.1.1",
     "typescript": "^5.3.3"

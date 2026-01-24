@@ -1,15 +1,28 @@
- import chalk from 'chalk';
- import { spawn } from 'child_process';
- import { configManager } from '../config';
- import { runTool } from './run';
- import { checkCommand } from './check';
+import chalk from 'chalk';
+import { spawn } from 'child_process';
+import { configManager } from '../config';
+import { runTool } from './run';
+import { checkCommand } from './check';
 
 /**
- * Shows a balloon notification on Windows
+ * Shows a non-blocking notification
  */
 function showNotification() {
     if (process.platform !== 'win32') return;
-    spawn('powershell', ['-ExecutionPolicy', 'Bypass', '-Command', "& {Add-Type -AssemblyName System.Windows.Forms; $notify = New-Object System.Windows.Forms.NotifyIcon; $notify.Icon = [System.Drawing.SystemIcons]::Information; $notify.BalloonTipIcon = [System.Windows.Forms.ToolTipIcon]::Info; $notify.BalloonTipTitle = 'My AI Agent'; $notify.BalloonTipText = 'Agent is done!'; $notify.Visible = $true; $notify.ShowBalloonTip(5000); $notify.Dispose()}"], { stdio: 'ignore' });
+    
+    try {
+        const notifier = require('node-notifier');
+        const notifierObj = new notifier.WindowsBalloon({ withFallback: false });
+        
+        notifierObj.notify({
+            title: 'My AI Agent',
+            message: 'Agent is done!',
+            time: 2000,
+            wait: false
+        });
+    } catch (e) {
+        // Ignore errors
+    }
 }
 
 /**

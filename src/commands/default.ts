@@ -5,7 +5,7 @@ import { runTool } from './run';
 import { checkCommand } from './check';
 
 /**
- * Shows a non-blocking notification
+ * Shows a notification
  */
 function showNotification() {
     if (process.platform !== 'win32') return;
@@ -14,8 +14,6 @@ function showNotification() {
         const notifier = require('node-notifier');
         const notifierObj = new notifier.WindowsBalloon({ withFallback: false });
         
-        // Set timeout longer to ensure notification appears
-        // Don't provide a callback to avoid blocking
         notifierObj.notify({
             title: 'My AI Agent',
             message: 'Agent is done!',

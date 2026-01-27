@@ -11,41 +11,19 @@ function showNotification() {
     if (process.platform !== 'win32') return;
 
     try {
-        // Use a separate process to ensure non-blocking notification
-        const { spawn } = require('child_process');
-
-        // Spawn a separate process for the notification to avoid blocking
-        const notificationProcess = spawn('node', ['-e', `
-            const notifier = require('node-notifier');
-            const notifierObj = new notifier.WindowsBalloon({ withFallback: false });
-            notifierObj.notify({
-                title: 'My AI Agent',
-                message: 'Agent is done!',
-                time: 2000,
-                wait: false
-            });
-        `], {
-            detached: true,
-            stdio: 'ignore'
+        const notifier = require('node-notifier');
+        const notifierObj = new notifier.WindowsBalloon({ withFallback: false });
+        
+        // Set timeout longer to ensure notification appears
+        // Don't provide a callback to avoid blocking
+        notifierObj.notify({
+            title: 'My AI Agent',
+            message: 'Agent is done!',
+            time: 5000,
+            wait: false
         });
-
-        // Unref to ensure the child process doesn't keep the parent alive
-        notificationProcess.unref();
     } catch (e) {
-        // Fallback to original method if spawning fails
-        try {
-            const notifier = require('node-notifier');
-            const notifierObj = new notifier.WindowsBalloon({ withFallback: false });
-
-            notifierObj.notify({
-                title: 'My AI Agent',
-                message: 'Agent is done!',
-                time: 2000,
-                wait: false
-            });
-        } catch (fallbackError) {
-            // Ignore errors
-        }
+        // Ignore errors silently
     }
 }
 

@@ -26,7 +26,8 @@ program
     .description('A CLI-based app for inference from popular AI CLI tools')
     .version(version)
     .option('-f, --file <file-path>', 'Read prompt from file')
-    .option('--no-autocheck', 'Skip automatic fallback if best tool fails');
+    .option('--no-autocheck', 'Skip automatic fallback if best tool fails')
+    .option('--no-notify', 'Disable desktop notification when done');
 
 // Add examples to the help
 program.addHelpText('after', `
@@ -36,6 +37,7 @@ Examples:
   $ agent --file ./path/to/prompt.txt
   $ agent --file ./my-prompt.md
   $ agent "Explain quantum computing" --no-autocheck
+  $ agent "Explain this code" --no-notify
   $ agent --file ./prompt.txt --no-autocheck
 `);
 
@@ -172,7 +174,13 @@ if (args.length > 0 && commands.includes(args[0])) {
         remainingArgs = remainingArgs.filter(arg => arg !== '--no-autocheck');
     }
 
-    let autocheck = !opts.noAutocheck;
+    if (remainingArgs.includes('--no-notify')) {
+        remainingArgs = remainingArgs.filter(arg => arg !== '--no-notify');
+    }
+
+    // Commander stores --no-<x> options as opts.<x> (boolean, false when flag is passed)
+    let autocheck = opts.autocheck !== false;
+    let notify = opts.notify !== false;
     let prompt = '';
 
     if (opts.file) {
@@ -208,7 +216,7 @@ if (args.length > 0 && commands.includes(args[0])) {
         prompt = remainingArgs.join(' ');
     }
 
-    defaultCommand(prompt, { autocheck }).catch(error => {
+    defaultCommand(prompt, { autocheck, notify }).catch(error => {
         console.error(error);
         process.exit(1);
     });

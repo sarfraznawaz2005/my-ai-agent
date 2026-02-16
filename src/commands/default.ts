@@ -34,8 +34,9 @@ function showNotification(agentName: string) {
 /**
  * Default command - runs the best tool with a prompt
  */
-export async function defaultCommand(prompt: string, options?: { autocheck?: boolean }): Promise<void> {
+export async function defaultCommand(prompt: string, options?: { autocheck?: boolean; notify?: boolean }): Promise<void> {
     const autocheck = options?.autocheck ?? true;
+    const notify = options?.notify ?? true;
     let bestToolName = configManager.getBest();
     const startTime = performance.now();
 
@@ -80,7 +81,7 @@ export async function defaultCommand(prompt: string, options?: { autocheck?: boo
         const endTime = performance.now();
         const timeTaken = (endTime - startTime) / 1000;
         console.log(`\n${chalk.dim.italic(`Answered via ${chalk.bold.cyan(bestToolName.toUpperCase())} (BEST) in ${timeTaken.toFixed(1)}s`)}`);
-        showNotification(bestToolName);
+        if (notify) showNotification(bestToolName);
         return;
     }
 
@@ -111,7 +112,7 @@ export async function defaultCommand(prompt: string, options?: { autocheck?: boo
             const endTime = performance.now();
             const timeTaken = (endTime - startTime) / 1000;
             console.log(`\n${chalk.dim.italic(`Answered via ${chalk.bold.cyan(tool.name.toUpperCase())} in ${timeTaken.toFixed(1)}s`)}`);
-            showNotification(tool.name);
+            if (notify) showNotification(tool.name);
             return;
         } else {
             configManager.updateTool(tool.name, {
